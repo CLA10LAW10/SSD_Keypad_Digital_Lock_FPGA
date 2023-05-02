@@ -3,29 +3,31 @@
 module ssd_top(
     input pulse_50Mhz,
     input [3:0] btn,
-    //input pulse_50Hz,
     input [3:0] sw,
     output [6:0] seg0,
     output chip_sel0,
-    output [6:0] seg1,
-    output chip_sel1,
+    // output [6:0] seg1,
+    // output chip_sel1,
     output [2:0] rgb,
     output [3:0] led,
-    // input [3:0] row, // Used for simulation
-    // output logic [3:0] col // Used for sim
-    inout [7:0] keypad
+    output [3:0] keypad_value,
+    output keypress,
+    input [3:0] row, // Used for simulation
+    output logic [3:0] col, // Used for sim
+    output [3:0] ssd_0,
+    output [3:0] ssd_1,
+    output [3:0] ssd_2,
+    output [3:0] ssd_3
   );
 
   parameter clk_freq = 50_000_000;
-  parameter stable_time = 1000; // ms
-  // parameter stable_time = 10; // ms - For implemenation
+  // parameter stable_time = 1000; // ms
+  parameter stable_time = 10; // ms - For implemenation
 
-  // logic [7:0] keypad; // Used for simulation
-  // assign keypad = {row,col}; // Used for simulation
+  logic [7:0] keypad; // Used for simulation
+  assign keypad = {row,col}; // Used for simulation
 
   logic rst;
-
-
 
   logic [7:0] keypad_w;
   logic c_sel;
@@ -54,7 +56,7 @@ module ssd_top(
   // assign c_sel_pulse = pulse_50Hz;
   // pulse_gen pulse_50 (.clk(pulse_50Mhz), .rst(rst), .pulse50(pulse_50Hz));
 
-  pulse_gen pg_inst1(
+   pulse_gen50Hz pg_inst1(
     .clk(pulse_50Mhz),
     .rst(rst),
     .pulse(c_sel_pulse)
@@ -108,12 +110,12 @@ module ssd_top(
     begin
 
       if (sw == 4'b0000) begin
-        seg_reg0 = c_sel ? output_ssd1 : output_ssd0;
+        seg_reg0 = c_sel ? output_ssd2 : output_ssd3;
       end else begin
-        seg_reg0 = c_sel ?  output_ssd3 : output_ssd2;
+        seg_reg0 = c_sel ?  output_ssd0 : output_ssd1;
       end
-      //seg_reg0 = c_sel ? output_ssd1 : output_ssd0;
-      //seg_reg1 = c_sel ? output_ssd3 : output_ssd2;
+      //seg_reg0 = c_sel ? output_ssd2 : output_ssd3;
+      //seg_reg1 = c_sel ? output_ssd0 : output_ssd1;
 
       if (c_sel_pulse)
       begin
@@ -156,7 +158,15 @@ module ssd_top(
   assign rst = btn[0];
   assign chip_sel0 = c_sel;
   assign chip_sel1 = c_sel;
+  assign keypad_value = decode_out;
+  assign keypress = is_a_key_pressed_pulse;
 
+  assign ssd_0 = decode0;
+  assign ssd_1 = decode1;
+  assign ssd_2 = decode2;
+  assign ssd_3 = decode3;
+
+  // Used fo troubleshooting
   assign rgb[1] = is_a_key_pressed;
   assign rgb[2] = c_sel;
   assign led = decode_out;

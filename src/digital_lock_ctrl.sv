@@ -2,8 +2,12 @@
 
 module digital_lock_ctrl(
     input clk,
-    input btn[3:0],
+    input [3:0] btn,
     input pulse25,
+    input [3:0] ssd_0,
+    input [3:0] ssd_1,
+    input [3:0] ssd_2,
+    input [3:0] ssd_3,
     input [3:0] led_status,
     input [2:0] rgb_status,
     output [3:0] led,
@@ -17,10 +21,10 @@ module digital_lock_ctrl(
   logic [15:0] password_reg;
   logic [3:0] re_enter_reg;
   logic [7:0] exit_reg;
-  logic [3:0] ssd_0;
-  logic [3:0] ssd_1;
-  logic [3:0] ssd_2;
-  logic [3:0] ssd_3;
+  // logic [3:0] ssd_0;
+  // logic [3:0] ssd_1;
+  // logic [3:0] ssd_2;
+  // logic [3:0] ssd_3;
 
   // logic is_a_key_pressed;
   logic [3:0] led_reg;
@@ -107,7 +111,7 @@ module digital_lock_ctrl(
       end
       else if (btn[3])
       begin
-        re_enter <= ssd_0;
+        re_enter_reg <= ssd_0;
       end
       else
       begin
