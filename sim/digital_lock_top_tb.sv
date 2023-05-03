@@ -35,7 +35,7 @@ module digital_lock_top_tb();
     #CP;
     row = 4'b0;
     col = 4'b0;
-    sw = 4'b0;
+    sw = 4'b1;
     btn = 4'b0001;
     #CP;
     btn = 4'b0000;
@@ -48,10 +48,10 @@ module digital_lock_top_tb();
     // W = 4'b0001
 
     // Unlock Digital Lock
-    row = 4'b0100; // South
-    #(CP*200_000);
-    row = 4'b0000;
-    #(CP*200_000);
+    row = 4'b1011; // South
+    #(CP*300_000);
+    row = 4'b1111;
+    #(CP*4_000_000);
 
     // row = 4'b0001; // West
     // #(CP*200_000);
@@ -122,7 +122,7 @@ module digital_lock_top_tb();
     // row = 4'b0000;
     // #(CP*200_000);
 
-    // $finish;
+    $finish;
   end
 
 endmodule;

@@ -161,10 +161,10 @@ module ssd_top(
   assign keypad_value = decode_out;
   assign keypress = is_a_key_pressed_pulse;
 
-  assign ssd_0 = decode0;
-  assign ssd_1 = decode1;
-  assign ssd_2 = decode2;
-  assign ssd_3 = decode3;
+  assign ssd_3 = decode0;
+  assign ssd_2 = decode1;
+  assign ssd_1 = decode2;
+  assign ssd_0 = decode3;
 
   // Used fo troubleshooting
   assign rgb[1] = is_a_key_pressed;

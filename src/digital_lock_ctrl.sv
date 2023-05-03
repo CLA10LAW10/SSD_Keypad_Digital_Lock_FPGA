@@ -28,11 +28,11 @@ module digital_lock_ctrl(
 
   // logic is_a_key_pressed;
   logic [3:0] led_reg;
-  logic [3:0] led_lock;
+  // logic [3:0] led_lock;
   logic [3:0] led_toggle1;
   logic [3:0] led_toggle2;
   logic [2:0] rgb_reg;
-  logic [2:0] rgb_lock;
+  // logic [2:0] rgb_lock;
   logic [2:0] rgb_toggle1;
   logic [2:0] rgb_toggle2;
 
@@ -51,34 +51,34 @@ module digital_lock_ctrl(
     begin
       if (pulse25)
       begin
-        if (led_lock == 4'b0101)
+        if (led_status == 4'b0101)
         begin
           led_toggle1 <= ~led_toggle1;
           led_reg <= led_toggle1;
         end
-        else if (led_lock == 4'b1111)
+        else if (led_status == 4'b1111)
         begin
           led_toggle2 <= ~led_toggle2;
           led_reg <= led_toggle2;
         end
         else
         begin
-          led_reg <= led_lock;
+          led_reg <= led_status;
         end
 
-        if (rgb_lock == 3'b001)
+        if (rgb_status == 3'b001)
         begin
           rgb_toggle1 <= {~rgb_toggle1[2],rgb_toggle1[1],~rgb_toggle1[0]};
           rgb_reg <= rgb_toggle1;
         end
-        else if (rgb_lock == 3'b010)
+        else if (rgb_status == 3'b010)
         begin
           rgb_toggle2 <= {rgb_toggle2[2],~rgb_toggle2[1],rgb_toggle2[0]};
           rgb_reg <= rgb_toggle2;
         end
         else
         begin
-          rgb_reg <= rgb_lock;
+          rgb_reg <= rgb_status;
         end
 
       end

@@ -69,7 +69,7 @@ module digital_lock_top
 
   pulse_gen25Hz pg_25Hz(.clk(clk),.rst(rst),.pulse(pulse_25Hz));
 
-  digital_lock lock_FSM (.clk(clk), .rst(rst), .password(password), .re_enter(re_enter), .exit(exit),
+  digital_lock lock_FSM (.clk(pulse_50Mhz), .rst(rst), .password(password), .re_enter(re_enter), .exit(exit),
   .is_a_key_pressed(is_a_key_pressed), .btn(user_input), .led(led_lock), .rgb(rgb_lock));
 
   digital_lock_ctrl lock_control (.clk(clk),.btn(btn_pass),.pulse25(pulse_25Hz),
@@ -81,7 +81,7 @@ module digital_lock_top
   
   ssd_top SSD_Keypad (.pulse_50Mhz(pulse_50Mhz),.btn(btn_pass),.sw(sw),
   .seg0(seg0),.chip_sel0(chip_sel0),
-  .keypad_value(user_input),.keypress(is_a_key_pressed),.row(row),.col(col),
+  .keypad_value(user_input),.keypress(is_a_key_pressed),.row(row),.col(csol),
   .ssd_0(ssd_0),.ssd_1(ssd_1),.ssd_2(ssd_2),.ssd_3(ssd_3));
   
   assign btn_pass = {btn_pulse[3:1],btn[0]};
