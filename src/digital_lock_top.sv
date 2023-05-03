@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
 module digital_lock_top
-  #(clk_freq = 125_000_000,
+  #(clk_freq = 50_000_000,
     stable_time = 10)
    (
      input clk,
@@ -67,9 +67,9 @@ module digital_lock_top
     end
   endgenerate
 
-  pulse_gen25Hz pg_25Hz(.clk(clk),.rst(rst),.pulse(pulse_25Hz));
+  pulse_gen25Hz pg_25Hz(.clk(clk),.rst(rst),.pulse(pulse_25Hz)); // Need to fix to be ~25 Hz
 
-  digital_lock lock_FSM (.clk(pulse_50Mhz), .rst(rst), .password(password), .re_enter(re_enter), .exit(exit),
+  digital_lock lock_FSM (.clk(clk), .rst(rst), .password(password), .re_enter(re_enter), .exit(exit),
   .is_a_key_pressed(is_a_key_pressed), .btn(user_input), .led(led_lock), .rgb(rgb_lock));
 
   digital_lock_ctrl lock_control (.clk(clk),.btn(btn_pass),.pulse25(pulse_25Hz),
@@ -77,11 +77,11 @@ module digital_lock_top
   .led_status(led_lock),.rgb_status(rgb_lock),.led(led_reg),.rgb(rgb_reg),
   .password(password),.re_enter(re_enter),.exit(exit));
 
-  clk_wiz_0 Clk_wiz_50MHz (.sysclk(clk), .pulse_50Mhz(pulse_50Mhz));
+  // clk_wiz_0 Clk_wiz_50MHz (.sysclk(clk), .pulse_50Mhz(pulse_50Mhz));
   
-  ssd_top SSD_Keypad (.pulse_50Mhz(pulse_50Mhz),.btn(btn_pass),.sw(sw),
+  ssd_top SSD_Keypad (.pulse_50Mhz(clk),.btn(btn_pass),.sw(sw),
   .seg0(seg0),.chip_sel0(chip_sel0),
-  .keypad_value(user_input),.keypress(is_a_key_pressed),.row(row),.col(csol),
+  .keypad_value(user_input),.keypress(is_a_key_pressed),.row(row),.col(col),
   .ssd_0(ssd_0),.ssd_1(ssd_1),.ssd_2(ssd_2),.ssd_3(ssd_3));
   
   assign btn_pass = {btn_pulse[3:1],btn[0]};
