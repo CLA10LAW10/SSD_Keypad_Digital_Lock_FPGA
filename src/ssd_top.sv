@@ -4,6 +4,7 @@ module ssd_top(
     input pulse_50Mhz,
     input [3:0] btn,
     input [3:0] sw,
+    input [3:0] reset_state,
     output [6:0] seg0,
     output chip_sel0,
     // output [6:0] seg1,
@@ -97,7 +98,7 @@ module ssd_top(
 
   always_ff @ (posedge pulse_50Mhz, posedge rst)
   begin
-    if (rst == 1)
+    if (rst == 1 || reset_state == 1)
     begin
       key_press = 2'b0;
       decode0 = 4'b0;

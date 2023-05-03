@@ -9,7 +9,8 @@ module digital_lock(
     input is_a_key_pressed,
     input [3:0] btn,
     output [3:0] led,
-    output [2:0] rgb
+    output [2:0] rgb,
+    output reset_state
   );
 
   // FSM state type
@@ -107,7 +108,7 @@ module digital_lock(
         begin
           if (btn != 4'b0000)
           begin
-            state_next = lock;
+            state_next = reset;
           end
         end // End unlock state
 
@@ -313,5 +314,8 @@ module digital_lock(
 
   assign led = led_reg;
   assign rgb = rgb_reg;
+
+  // assign reset_state = (state_reg == lock || state_reg == reset) ? 1 : 0;
+  assign reset_state = (state_reg == reset) ? 1 : 0;
 
 endmodule
