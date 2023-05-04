@@ -4,7 +4,7 @@ module ssd_top(
     input pulse_50Mhz,
     input [3:0] btn,
     input [3:0] sw,
-    input [3:0] reset_state,
+    input reset_state,
     output [6:0] seg0,
     output chip_sel0,
     output [6:0] seg1,
