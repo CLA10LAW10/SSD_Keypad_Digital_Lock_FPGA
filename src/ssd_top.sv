@@ -7,14 +7,14 @@ module ssd_top(
     input [3:0] reset_state,
     output [6:0] seg0,
     output chip_sel0,
-    // output [6:0] seg1,
-    // output chip_sel1,
+    output [6:0] seg1,
+    output chip_sel1,
     output [2:0] rgb,
     output [3:0] led,
     output [3:0] keypad_value,
     output keypress,
-    input [3:0] row, // Used for simulation
-    output logic [3:0] col, // Used for sim
+    input [3:0] row, 
+    output logic [3:0] col, 
     output [3:0] ssd_0,
     output [3:0] ssd_1,
     output [3:0] ssd_2,
@@ -52,10 +52,7 @@ module ssd_top(
   logic [6:0] seg_reg0;
   logic [6:0] seg_reg1;
 
-  // logic pulse_50Hz;
    logic c_sel_pulse;
-  // assign c_sel_pulse = pulse_50Hz;
-  // pulse_gen pulse_50 (.clk(pulse_50Mhz), .rst(rst), .pulse50(pulse_50Hz));
 
    pulse_gen50Hz pg_inst1(
     .clk(pulse_50Mhz),
@@ -110,13 +107,8 @@ module ssd_top(
     else
     begin
 
-      if (sw == 4'b0000) begin
-        seg_reg0 = c_sel ? output_ssd2 : output_ssd3;
-      end else begin
-        seg_reg0 = c_sel ?  output_ssd0 : output_ssd1;
-      end
-      //seg_reg0 = c_sel ? output_ssd2 : output_ssd3;
-      //seg_reg1 = c_sel ? output_ssd0 : output_ssd1;
+      seg_reg0 = c_sel ? output_ssd2 : output_ssd3;
+      seg_reg1 = c_sel ? output_ssd0 : output_ssd1;
 
       if (c_sel_pulse)
       begin

@@ -21,10 +21,6 @@ module digital_lock_ctrl(
   logic [15:0] password_reg;
   logic [3:0] re_enter_reg;
   logic [7:0] exit_reg;
-  // logic [3:0] ssd_0;
-  // logic [3:0] ssd_1;
-  // logic [3:0] ssd_2;
-  // logic [3:0] ssd_3;
 
   // logic is_a_key_pressed;
   logic [3:0] led_reg;
